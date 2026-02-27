@@ -54,7 +54,7 @@ if [ "$BACKEND_RUNNING" = "0" ]; then
     echo "启动后端 (port 8000)..."
     if [ "$MODE" = "production" ]; then
         nohup python -m uvicorn backend.main:app \
-            --host 0.0.0.0 --port 8000 --workers 2 \
+            --host 0.0.0.0 --port 8000 \
             > "$LOG_DIR/backend.log" 2>&1 &
     else
         nohup python -m uvicorn backend.main:app \
