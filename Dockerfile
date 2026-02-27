@@ -2,7 +2,7 @@
 FROM node:20-alpine AS frontend-builder
 WORKDIR /app/frontend
 COPY frontend/package.json frontend/package-lock.json* ./
-RUN npm install --silent
+RUN npm config set registry https://registry.npmmirror.com && npm install --silent
 COPY frontend/ ./
 RUN npm run build
 
@@ -17,8 +17,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Python 依赖
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt \
-    && pip install --no-cache-dir fastapi uvicorn[standard]
+COPY vendor/ ./vendor/
+RUN pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple \
+    -r requirements.txt \
+    && pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple \
+    fastapi uvicorn[standard]
 
 # 应用代码
 COPY backend/ ./backend/

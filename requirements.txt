@@ -1,6 +1,6 @@
 contourpy==1.3.2
 cycler==0.12.1
-fmz @ https://github.com/fmzquant/backtest_python/archive/master.zip#sha256=729e92d032e3130260a96b61edf715446be0f02fc2fc1d6f66912938c8f7237c
+fmz @ file:///app/vendor/fmz.zip
 fonttools==4.61.1
 kiwisolver==1.4.9
 matplotlib==3.10.8
