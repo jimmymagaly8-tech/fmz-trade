@@ -1,0 +1,10 @@
+.venv
+.git
+.logs
+.pids
+node_modules
+frontend/dist
+frontend/node_modules
+__pycache__
+*.pyc
+.claude

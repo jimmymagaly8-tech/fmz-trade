@@ -1,0 +1,8 @@
+services:
+  fmz-trade:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./strategies:/app/strategies
+    restart: unless-stopped
