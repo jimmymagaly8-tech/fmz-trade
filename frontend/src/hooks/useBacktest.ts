@@ -68,6 +68,7 @@ export function useBacktest() {
               stage: '',
               result: null,
               error: msg.data.message || 'Unknown error',
+              logs: [],
             });
             ws.close();
             break;
@@ -92,6 +93,7 @@ export function useBacktest() {
         stage: '',
         result: null,
         error: err instanceof Error ? err.message : 'Failed to start backtest',
+        logs: [],
       });
     }
   }, []);

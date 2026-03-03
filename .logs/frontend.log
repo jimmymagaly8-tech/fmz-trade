@@ -7,3 +7,5 @@
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
+6:17:39 PM [vite] (client) hmr update /src/App.tsx
+6:17:43 PM [vite] (client) hmr update /src/App.tsx

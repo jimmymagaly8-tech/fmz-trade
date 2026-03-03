@@ -28,3 +28,5 @@ INFO:     127.0.0.1:52796 - "POST /api/backtest/start HTTP/1.1" 200 OK
 INFO:     127.0.0.1:52799 - "WebSocket /ws/backtest/6a82c993" [accepted]
 INFO:     connection open
 INFO:     connection closed
+INFO:     127.0.0.1:57115 - "GET /api/strategies HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57146 - "GET /api/strategies HTTP/1.1" 200 OK
