@@ -374,12 +374,36 @@ def run_backtest(strategy_code: str, config: dict):
 
     emit("progress", {"percent": 5, "stage": "initializing"})
 
+    # Print data fetch info to UI
+    exchanges_conf = config.get("exchanges", [config.get("exchange", {})])
+    options = task_config.get("Options", {})
+    period_ms = options.get("Period", 0)
+    base_period_ms = exchanges_conf[0].get("BasePeriod", options.get("Period", 0)) if exchanges_conf else 0
+    period_label = next((k for k, v in PERIOD_MAP.items() if v == period_ms), f"{period_ms}ms")
+    start_ts = options.get("TimeBegin", 0)
+    end_ts = options.get("TimeEnd", 0)
+
+    from datetime import datetime
+    start_str = datetime.fromtimestamp(start_ts).strftime("%Y-%m-%d") if start_ts else "?"
+    end_str = datetime.fromtimestamp(end_ts).strftime("%Y-%m-%d") if end_ts else "?"
+    total_days = (end_ts - start_ts) / 86400 if end_ts > start_ts else 0
+    est_candles = int(total_days * 24 * 60 * 60 * 1000 / period_ms) if period_ms else 0
+
+    for i, ex_conf in enumerate(exchanges_conf):
+        eid = ex_conf.get("eid", "?")
+        currency = ex_conf.get("currency", "?")
+        data_server = options.get("DataServer", "http://q.fmz.com")
+        emit("log", {"message": f"[数据] 交易所{i+1}: {eid} {currency} | 周期: {period_label} | {start_str} ~ {end_str} ({int(total_days)}天, 约{est_candles:,}根K线) | 数据源: {data_server}"})
+
+    emit("log", {"message": f"[引擎] 正在加载K线数据，请稍候..."})
+
     # VCtx injects exchange/Log/Sleep/etc. into the gApis dict
     # We pass our own dict so we can control what the strategy sees
     g = {"__builtins__": __builtins__}
 
     task = fmz.VCtx(task=task_config, gApis=g)
 
+    emit("log", {"message": f"[引擎] 数据加载完成，开始运行策略..."})
     emit("progress", {"percent": 10, "stage": "running"})
 
     # Add common imports available to strategies

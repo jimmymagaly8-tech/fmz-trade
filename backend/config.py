@@ -10,4 +10,4 @@ VENV_PYTHON = _venv_python if _venv_python.exists() else Path(sys.executable)
 
 RUNNER_SCRIPT = Path(__file__).resolve().parent / "workers" / "backtest_runner.py"
 
-BACKTEST_TIMEOUT = 300  # 5 minutes
+BACKTEST_TIMEOUT = 1800  # 30 minutes

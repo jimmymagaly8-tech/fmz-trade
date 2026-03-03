@@ -8,6 +8,7 @@ const initialState: BacktestState = {
   stage: '',
   result: null,
   error: null,
+  logs: [],
 };
 
 export function useBacktest() {
@@ -22,7 +23,7 @@ export function useBacktest() {
       wsRef.current = null;
     }
 
-    setState({ status: 'running', progress: 0, stage: 'starting', result: null, error: null });
+    setState({ status: 'running', progress: 0, stage: 'starting', result: null, error: null, logs: [] });
 
     try {
       const taskId = await apiStartBacktest(code, config);
@@ -43,14 +44,21 @@ export function useBacktest() {
               stage: msg.data.stage ?? prev.stage,
             }));
             break;
+          case 'log':
+            setState((prev) => ({
+              ...prev,
+              logs: [...prev.logs, msg.data.message as string],
+            }));
+            break;
           case 'complete':
-            setState({
+            setState((prev) => ({
+              ...prev,
               status: 'completed',
               progress: 100,
               stage: 'done',
               result: msg.data as BacktestResult,
               error: null,
-            });
+            }));
             ws.close();
             break;
           case 'error':

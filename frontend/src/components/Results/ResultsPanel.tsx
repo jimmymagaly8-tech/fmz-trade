@@ -28,6 +28,23 @@ export default function ResultsPanel({ state }: Props) {
           status="active"
           strokeColor={{ from: '#108ee9', to: '#87d068' }}
         />
+        {state.logs.length > 0 && (
+          <div style={{
+            marginTop: 16,
+            padding: '8px 12px',
+            background: '#1a1a1a',
+            borderRadius: 6,
+            fontFamily: 'monospace',
+            fontSize: 12,
+            color: '#a0a0a0',
+            maxHeight: 160,
+            overflowY: 'auto',
+          }}>
+            {state.logs.map((log, i) => (
+              <div key={i} style={{ lineHeight: '1.8' }}>{log}</div>
+            ))}
+          </div>
+        )}
       </div>
     );
   }

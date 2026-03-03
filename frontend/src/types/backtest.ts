@@ -81,4 +81,5 @@ export interface BacktestState {
   stage: string;
   result: BacktestResult | null;
   error: string | null;
+  logs: string[];
 }
